@@ -1,1 +1,3 @@
-wxWidgets cmake c++
+wxWidgets 
+cmake
+ c++
