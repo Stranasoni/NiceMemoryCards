@@ -2,15 +2,20 @@
 #define MAINFRAME_H
 
 #include "wx/wx.h"
-
+#include <map>
+//const struct MYColours {
+//	const wxColor gray = wxT("#5F9EA0");
+//	const wxColor brick = wxT("#B22222");
+//	const wxColor gold = wxT("#FFD700");
+//	const wxColor olive = wxT("#556B2F");
+//	const wxColor blue = wxT("#4682B4");
+//};
 class MainFrame : public wxFrame
 {
 	 int PUT_ID = -1;
-	 const wxColor gray = wxT("#5F9EA0");
-	 const wxColor brick = wxT("#B22222");
-	 const wxColor gold = wxT("#FFD700");
-	 const wxColor olive = wxT("#556B2F");
-	 const wxColor blue = wxT("#4682B4");
+	 std::map<int, wxColor> btn_and_color;
+	 const wxColor my_colors[5]{ wxT("#5F9EA0"),wxT("#B22222"),wxT("#FFD700"),wxT("#556B2F"),wxT("#4682B4") };
+	
 public:
 	
 	MainFrame(const wxString title);
@@ -28,4 +33,19 @@ public:
 	
 };
 
+//class MyButton : public wxButton
+//{
+//	wxColour color;
+//public:
+//	MyButton(wxWindow* parent,
+//		wxWindowID id,
+//		const wxString& label = wxEmptyString,
+//		const wxPoint& pos = wxDefaultPosition,
+//		const wxSize& size = wxDefaultSize,
+//		long style = 0,
+//		const wxValidator& validator = wxDefaultValidator,
+//		const wxString& name = wxASCII_STR(wxButtonNameStr));
+//
+//};
+ 
 #endif
