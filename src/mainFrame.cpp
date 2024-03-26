@@ -95,11 +95,11 @@ void MainFrame::OnClickbtn1(wxCommandEvent& event) {
 		current_button = (wxButton*)FindWindowById(PUT_ID);
 		if (!btn_and_color.count(PUT_ID)) {
 			
-			btn_and_color[PUT_ID] = my_colors[*iter_r_nums++];//и это не гарантирует никаких паросочетаний но я устала в новой версии переделаю
+			btn_and_color[PUT_ID] = my_colors[*iter_r_nums++];
 		}
 		//цвет определен - отобразить
 		current_button->SetBackgroundColour(btn_and_color[PUT_ID]);
-		break;
+		break;//
 	default:		
 		previos_button = (wxButton*)FindWindowById(PUT_ID);
 		PUT_ID = event.GetId();
