@@ -32,10 +32,10 @@ MainFrame::MainFrame(const wxString title)
 	btn3 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
 	btn4 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
 
-	btn1->SetBackgroundColour(my_colors[0]);
-	btn2->SetBackgroundColour(my_colors[0]);
-	btn3->SetBackgroundColour(my_colors[0]);
-	btn4->SetBackgroundColour(my_colors[0]);
+	btn1->SetBackgroundColour(gray);
+	btn2->SetBackgroundColour(gray);
+	btn3->SetBackgroundColour(gray);
+	btn4->SetBackgroundColour(gray);
 
 	hbox1->Add(btn1,1,wxEXPAND | wxALL, 5);
 	hbox1->Add(btn2, 1, wxEXPAND | wxALL, 5);
@@ -47,10 +47,10 @@ MainFrame::MainFrame(const wxString title)
 	btn7 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
 	btn8 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
 
-	btn5->SetBackgroundColour(my_colors[0]);
-	btn6->SetBackgroundColour(my_colors[0]);
-	btn7->SetBackgroundColour(my_colors[0]);
-	btn8->SetBackgroundColour(my_colors[0]);
+	btn5->SetBackgroundColour(gray);
+	btn6->SetBackgroundColour(gray);
+	btn7->SetBackgroundColour(gray);
+	btn8->SetBackgroundColour(gray);
 
 	hbox2->Add(btn5, 1, wxEXPAND | wxALL, 5);
 	hbox2->Add(btn6, 1, wxEXPAND | wxALL, 5);
@@ -71,6 +71,18 @@ MainFrame::MainFrame(const wxString title)
 	
 
 	panel->SetSizer(vbox);
+	MyRandom* rand = new MyRandom();
+	std::vector<int>& pofig = rand->GetRNums(4);
+	std::vector<int>& pofig2 = rand->GetRNums(4);
+	for (int i = 0; i < pofig.size(); ++i)
+	{
+		random_nums.push_back(pofig[i]);
+	}
+	for (int i = 0; i < pofig2.size(); ++i)
+	{
+		random_nums.push_back(pofig2[i]);
+	}
+	iter_r_nums = random_nums.begin();
 }
 
 void MainFrame::OnClickbtn1(wxCommandEvent& event) {
@@ -82,8 +94,8 @@ void MainFrame::OnClickbtn1(wxCommandEvent& event) {
 		PUT_ID = event.GetId();
 		current_button = (wxButton*)FindWindowById(PUT_ID);
 		if (!btn_and_color.count(PUT_ID)) {
-			MyRandom* rand = new MyRandom(5, 1);
-			btn_and_color[PUT_ID] = my_colors[rand->GetRNums()[0]];//и это не гарантирует никаких паросочетаний но я устала в новой версии переделаю
+			
+			btn_and_color[PUT_ID] = my_colors[*iter_r_nums++];//и это не гарантирует никаких паросочетаний но я устала в новой версии переделаю
 		}
 		//цвет определен - отобразить
 		current_button->SetBackgroundColour(btn_and_color[PUT_ID]);
@@ -93,15 +105,15 @@ void MainFrame::OnClickbtn1(wxCommandEvent& event) {
 		PUT_ID = event.GetId();
 		current_button = (wxButton*)FindWindowById(PUT_ID);
 		if (!btn_and_color.count(PUT_ID)) {
-			MyRandom* rand = new MyRandom(5, 1);
-			btn_and_color[PUT_ID] = my_colors[rand->GetRNums()[0]];
+			
+			btn_and_color[PUT_ID] = my_colors[*iter_r_nums++];
 		}
 		current_button->SetBackgroundColour(btn_and_color[PUT_ID]);
 		//далле если цвета совпали осталяем, в идеале сделать некликабельными
 		if (current_button->GetBackgroundColour() == previos_button->GetBackgroundColour()) { PUT_ID = -1; break; }
 		
-		current_button->SetBackgroundColour(my_colors[0]);
-		previos_button->SetBackgroundColour(my_colors[0]);
+		current_button->SetBackgroundColour(gray);
+		previos_button->SetBackgroundColour(gray);
 		PUT_ID = -1;
 		break;
 		

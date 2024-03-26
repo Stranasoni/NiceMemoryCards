@@ -6,16 +6,15 @@
 #include <vector>
 class MyRandom 
 {
-    std::vector<int> random_numbers; 
+    int x0;
     int primeFactors(int m); //возвращает произведение простых множителей числа m
-    
+    int random(int m, int x = time(NULL));
 public:
-    MyRandom(int m, int count_output);//linear congruential method
-        //если будешь дорабатывать, нужно сделать лучше:
-        //либо добавить конструкторов на разные рандомы,
-        //либо больше классов 
-        //либо дефольный + методы
-    std::vector<int> GetRNums();
+    MyRandom() = default;
+   
+    std::vector<int> GetRNums(int m);
+    //поскольку длина случайной последовательности ограничевается m
+    //количество случайно сгенерированных чисел равно m
     
 
    
