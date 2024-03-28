@@ -7,7 +7,7 @@
 class MyRandom 
 {
     int x0;
-    int primeFactors(int m); //возвращает произведение простых множителей числа m
+    std::vector<int> primeFactors(int m); //возвращает произведение простых множителей числа m
     int random(int m, int x = time(NULL));
 public:
     MyRandom() = default;
