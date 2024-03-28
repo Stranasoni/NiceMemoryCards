@@ -26,6 +26,7 @@ int MyRandom::random(int m, int x) {
     //попрактикуйся в многопоточности и вернись,
     //пока просто как нибудь
     c = 3;
+    //from work_on_random
     //while (primeFactors(c) != c) --c;//!!ПРОБЛЕМА!!
     x0 = (a * x + c) % m;
     return x0;
