@@ -39,7 +39,7 @@ int MyRandom::random(int m, int x) {
                 {
                     if (prime_factors_c[j] == prime_factors_m[inner_i]) { current_simple_factor = 1; break; }
                     else {
-                        if (!(++j < prime_factors_c.size() | ++inner_i < prime_factors_m.size())) { c_found = true; break; }
+                        if ((++j < prime_factors_c.size() | ++inner_i < prime_factors_m.size())) { c_found = true; break; }
                         --j; --inner_i;
                         current_simple_factor = prime_factors_m[inner_i];
                         continue;
