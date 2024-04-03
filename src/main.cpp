@@ -1,6 +1,6 @@
 
 
-#include "mainFrame.h"
+#include "menu.h"
 
 class MyApp : public wxApp
 {
@@ -12,7 +12,7 @@ IMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit() {
 	std::cout;
-	MainFrame* mf = new MainFrame(wxT("Memory"));
+	Menu* mf = new Menu(wxT("Memory"));
 	mf->Show();
 	return true;
 }
