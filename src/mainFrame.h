@@ -3,8 +3,12 @@
 
 #include "wx/wx.h"
 #include <iterator>
-#include <list>
+#include <list>//delete
 #include <map>
+#include <random>
+#include <vector>
+
+
 //const struct MYColours {
 //	const wxColor gray = wxT("#5F9EA0");
 //	const wxColor brick = wxT("#B22222");
@@ -14,6 +18,40 @@
 //};
 class MainFrame : public wxFrame
 {
+	//!!smart point?
+	std::map<wxButton*, wxColor>* btn_and_colors;
+	//!!здесь нужно будет реализовать с помощью рандомных побидовых сдвигов hex кода числа или rgb. интереснее будет с hex
+	std::vector<wxColor> colors = { wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727"),
+						wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727") };
+
+	size_t index_colors = 0;
+
+public:
+	MainFrame(int cards_count, wxWindow* parent, const wxString& title = "poher");
+	
+	//!!сдклать шаблонным? //пиздец этот array даже по ссылке передать нельзя
+	void RandomPermutation(std::vector<wxColor>& colors);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+
 public://временно
 	 int PUT_ID = -1;
 	 std::list<int> random_nums{};

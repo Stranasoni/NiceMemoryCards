@@ -15,6 +15,59 @@
 //}
 
 
+
+
+
+
+MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
+	:wxFrame(parent, wxID_ANY, title)
+{
+
+	wxPanel* panel = new wxPanel();
+	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
+	
+	wxBoxSizer* hbox1 = new wxBoxSizer(wxHORIZONTAL);
+	wxBoxSizer* hbox2 = new wxBoxSizer(wxHORIZONTAL);
+	btn_and_colors = new std::map<wxButton*, wxColor>;
+	switch (cards_count) {
+	case 4:
+		for (int i = 0; i < 4; ++i)
+		{
+			if (index_colors == cards_count / 2) { index_colors = 0; RandomPermutation(colors);}
+
+			(*btn_and_colors).insert(std::pair<wxButton*, wxColor>(new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER),
+																colors[index_colors]));
+			++index_colors;
+			//указатели можно перезаписывать поэтому создавай не временный обьект
+			//потом когда будешь переворачивать карты прийдется использовать метод find . В целом если будет необходимость может заменить ключ в словаре
+			//отрисовка кнопок и сайзеров дальше доброе утро 
+
+		}
+
+		break;
+	case 8:
+		break;
+	case 16:
+		break;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 MainFrame::MainFrame(const wxString title)
 	:wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(-1, -1))
 {
@@ -121,4 +174,18 @@ void MainFrame::OnClickbtn1(wxCommandEvent& event) {
 	}
 	
 
+}
+
+void MainFrame::RandomPermutation(std::vector<wxColor>& colors)
+{
+	int end = colors.size() - 1;
+	int fix = end;
+	while (end != 0)
+	{
+		int rand_index = rand() % fix;//чувствую надо вынести 
+		wxColor temp_box = colors[end];
+		colors[end] = colors[rand_index];
+		colors[rand_index] = temp_box;
+		--end;
+	}
 }
