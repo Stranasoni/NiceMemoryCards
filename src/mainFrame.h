@@ -8,6 +8,10 @@
 #include <random>
 #include <vector>
 
+#include <cmath>
+#include <thread>
+#include <chrono>
+
 
 //const struct MYColours {
 //	const wxColor gray = wxT("#5F9EA0");
@@ -15,81 +19,74 @@
 //	const wxColor gold = wxT("#FFD700");
 //	const wxColor olive = wxT("#556B2F");
 //	const wxColor blue = wxT("#4682B4");
+// 
 //};
+//!
+//! 
+//! std::vector<wxColor> colors = { wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727"),
+//wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727") };
+
 class MainFrame : public wxFrame
 {
-	//!!smart point?
-	std::map<wxButton*, wxColor>* btn_and_colors;
-	//!!здесь нужно будет реализовать с помощью рандомных побидовых сдвигов hex кода числа или rgb. интереснее будет с hex
-	std::vector<wxColor> colors = { wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727"),
-						wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727"), wxColor("#b32727") };
 
+	int PUT_ID = -1;
+	//!!smart point?
+	std::map<int, wxColor>* btn_and_colors = new std::map<int, wxColor>();
+	//std::map<wxButton*, wxColor>* btn_and_colors = new std::map<wxButton*, wxColor>;
+	//!!здесь нужно будет реализовать с помощью рандомных побидовых сдвигов hex кода числа или rgb. интереснее будет с hex 
+	//! это будет автоматически генерироваться в зависимости от выбранного режима 
+	//! кстати наверное это лучше всего хранить в структуре? хотя зачем я же случайно цвета выбираю
+	
+	std::vector<wxColor> colors;
+	const wxColor gray = wxT("#5F9EA0");
 	size_t index_colors = 0;
+	const int game_mode;
+
+
+	wxButton* current_button;
+	wxButton* previos_button;
+	bool first = true;
 
 public:
 	MainFrame(int cards_count, wxWindow* parent, const wxString& title = "poher");
 	
 	//!!сдклать шаблонным? //пиздец этот array даже по ссылке передать нельзя
 	void RandomPermutation(std::vector<wxColor>& colors);
+	
+	std::pair<int,int> MatrixSize(int count_cards);
 
+	wxColor RandomColour();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	void check(wxButton& btn);
 
 
 
 	
 
 public://временно
-	 int PUT_ID = -1;
-	 std::list<int> random_nums{};
-	 std::list<int>::iterator iter_r_nums; 
-	 std::map<int, wxColor> btn_and_color;
-	 const wxColor gray = wxT("#5F9EA0");
-	 const wxColor my_colors[4]{wxT("#B22222"),wxT("#FFD700"),wxT("#556B2F"),wxT("#4682B4") };
+	
+	
+	
+	 
+	
+	 
 	
 public:
 	
 	MainFrame(const wxString title);
-	void OnClickbtn1(wxCommandEvent& event);
+	void OnClickbtns(wxCommandEvent& event);
 	
 
 	wxButton* btn1;
-	wxButton* btn2;
-	wxButton* btn3;
-	wxButton* btn4;
-	wxButton* btn5;
-	wxButton* btn6;
-	wxButton* btn7;
-	wxButton* btn8;
-	
+	//wxButton* btn2;
+	//wxButton* btn3;
+	//wxButton* btn4;
+	//wxButton* btn5;
+	//wxButton* btn6;
+	//wxButton* btn7;
+	//wxButton* btn8;
+	//
 };
 
-//class MyButton : public wxButton
-//{
-//	wxColour color;
-//public:
-//	MyButton(wxWindow* parent,
-//		wxWindowID id,
-//		const wxString& label = wxEmptyString,
-//		const wxPoint& pos = wxDefaultPosition,
-//		const wxSize& size = wxDefaultSize,
-//		long style = 0,
-//		const wxValidator& validator = wxDefaultValidator,
-//		const wxString& name = wxASCII_STR(wxButtonNameStr));
-//
-//};
  
 #endif

@@ -1,11 +1,12 @@
 #include "wx/wx.h"
+#include "mainFrame.h"
 
 class Menu : public wxFrame
 {
-	int ID_SCLEROSIS = 101;
-	int ID_EASY = 102;
-	int ID_MEDIUM = 103;
-	int ID_HARD = 104;
+	int ID_SCLEROSIS = 4;
+	int ID_EASY = 8;
+	int ID_MEDIUM = 16;
+	int ID_HARD = 64;
 
 public:
 	Menu(const wxString title);
@@ -31,6 +32,9 @@ public:
 	void Leave_btn(wxMouseEvent& event);
 	void Clicked_btn(wxCommandEvent& event);
 	void Clicked_btns(wxCommandEvent& event);
+	void OnClose(wxCloseEvent& event) {
+		
+	}
 	
 
 };

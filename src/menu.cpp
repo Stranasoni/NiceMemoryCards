@@ -129,17 +129,10 @@ void Menu::Clicked_btn(wxCommandEvent& event)
 
 void Menu::Clicked_btns(wxCommandEvent& event)
 {
-	switch (event.GetId()) {
-		case 101:
-			//создаем окно класса MainFrame 
-			break;
-		case 102:
-			break;
-		case 103:
-			break;
-		case 104:
-			break;
-	}
+	MainFrame* game = new MainFrame(event.GetId(), this);
+	game->Show();
+
+	
 }
 
 
