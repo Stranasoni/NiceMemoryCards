@@ -19,13 +19,22 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 	}
 
 	RandomPermutation(colors);
-	//что то здесь возможно вызывает утечки
-	wxBoxSizer* cur_hbox;
+	
 	//панель с счетчиком игры
-	//cur_hbox = new wxBoxSizer(wxHORIZONTAL);
-	//wxPanel* counter = new wxPanel();
-	//cur_hbox->Add(counter, 1, wxEXPAND | wxALL, 5);
-	//
+	wxBoxSizer* vboxScore = new wxBoxSizer(wxVERTICAL);
+	
+	wxStaticText* parting_words = new wxStaticText(panel, wxID_ANY, wxString("Откройте все карточки, потренируйте память, добейтесь успеха и получите приз."));
+	score = new wxStaticText(panel, wxID_ANY, wxString("Очки: 0"));
+	parting_words->SetFont(my_font);
+	score->SetFont(my_font);
+
+	vboxScore->Add(parting_words, 0, wxALIGN_CENTER | wxTOP, 15);
+	vboxScore->Add(score, 0, wxALIGN_CENTER | wxTOP, 10);
+	vbox->Add(vboxScore,0 , wxALIGN_CENTER | wxDOWN, 20);
+
+	
+	////что то здесь возможно вызывает утечки
+	wxBoxSizer* cur_hbox;
 	wxButton* cur_btn;
 
 	for (size_t rows = 0; rows < rw_cl.first; ++rows)
@@ -46,7 +55,7 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 	}
 
 	panel->SetSizer(vbox);
-	Centre();
+	
 		
 
 }
@@ -80,11 +89,16 @@ void MainFrame::OnClickbtns(wxCommandEvent& event)
 	if (current_button->GetBackgroundColour() != previos_button->GetBackgroundColour())
 	{
 		select_two_cards = true;	
+		if (score_int > 2) score_int -= 4;
 		
 
 	}
 	else {
 		current_button->Enable(false); previos_button->Enable(false);	
+
+		wxString new_label = std::to_string(wxAtoi(score->GetLabel().substr(6)) + score_int);
+		score->SetLabelText(wxString("Очки: "+new_label));
+		score_int = 10;
 	}
 
 	PUT_ID = NULL;

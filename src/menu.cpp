@@ -11,7 +11,6 @@ Menu::Menu(const wxString title)
 
 	panel = new wxPanel(this, wxID_ANY);
 	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
-	my_font = wxFont(18, wxFONTFAMILY_DEFAULT, wxSLANT, wxNORMAL);
 	
 		
 	text_welcome = new wxStaticText(panel,wxID_ANY,"Не скучная игра в карточки на память");

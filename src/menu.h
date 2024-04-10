@@ -17,7 +17,7 @@ public:
 	wxPanel* panel;
 	wxBitmap bitmap;
 	wxImage image;
-	wxFont my_font;
+	wxFont my_font= wxFont(18, wxFONTFAMILY_DEFAULT, wxBOLD, wxNORMAL);;
 
 	//подменю выбора режима
 	wxButton* btn_sclerosis;

@@ -29,8 +29,13 @@ class MainFrame : public wxFrame
 	wxButton* previos_button;
 	bool select_two_cards = false;
 
-public:
-	MainFrame(int cards_count, wxWindow* parent, const wxString& title = "poher");
+	//счетчик и сопутсвующее
+	wxFont my_font = wxFont(18, wxFONTFAMILY_DEFAULT, wxBOLD, wxNORMAL);
+	wxStaticText* score;
+	int score_int = 10;
+	void PrintResult();
+
+
 	
 	void OnClickbtns(wxCommandEvent& event);
 
@@ -38,6 +43,8 @@ public:
 	std::pair<int,int> MatrixSize(int count_cards);
 	wxColor RandomColour();
 	
+public:
+	MainFrame(int cards_count, wxWindow* parent, const wxString& title = "poher");
 };
 
  
