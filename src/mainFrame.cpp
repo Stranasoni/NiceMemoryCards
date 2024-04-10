@@ -3,20 +3,12 @@
 
 
 MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
-	: wxFrame(parent, wxID_ANY, title), game_mode(cards_count)
+	: wxFrame(parent, wxID_ANY, title,parent->GetPosition(), parent->GetSize()), game_mode(cards_count)
 {
-
-
-	
 
 	wxPanel* panel = new wxPanel(this, wxID_ANY);
 	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
 
-	/*btn1 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-	btn1->SetBackgroundColour(wxColour("#000000"));
-	Connect(btn1->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrame::OnClickbtn1));
-
-	vbox->Add(btn1, 1, wxEXPAND | wxALL, 5);*/
 	//все необходимые значения для графики мы получим из game_mode 
 	std::pair<int, int> rw_cl = MatrixSize(cards_count);
 
@@ -27,8 +19,13 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 	}
 
 	RandomPermutation(colors);
-
+	//что то здесь возможно вызывает утечки
 	wxBoxSizer* cur_hbox;
+	//панель с счетчиком игры
+	//cur_hbox = new wxBoxSizer(wxHORIZONTAL);
+	//wxPanel* counter = new wxPanel();
+	//cur_hbox->Add(counter, 1, wxEXPAND | wxALL, 5);
+	//
 	wxButton* cur_btn;
 
 	for (size_t rows = 0; rows < rw_cl.first; ++rows)
@@ -37,7 +34,7 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 		for (size_t cols = 0; cols < rw_cl.second; ++cols, ++index_colors)
 		{	
 			cur_btn = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-			cur_btn->SetBackgroundColour(wxColour("#000000"));
+			cur_btn->SetBackgroundColour(gray);
 			Connect(cur_btn->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrame::OnClickbtns));
 
 			cur_hbox->Add(cur_btn, 1, wxEXPAND | wxALL, 5);
@@ -50,196 +47,50 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 
 	panel->SetSizer(vbox);
 	Centre();
-	//если оставить так то первые game_mode кнопок всегда будут разные , а не случайные поэтому хмм может быть просто создадим массив двойного размера и все
-	
-
-	//RandomPermutation(colors);
-	
-	
-
-			//указатели можно перезаписывать поэтому создавай не временный обьект
-			// будет случайнее если я буду назначать цвет в момент открытия
-			//потом когда будешь переворачивать карты прийдется использовать метод find . В целом если будет необходимость может заменить ключ в словаре
-			//отрисовка кнопок и сайзеров дальше доброе утро 
 		
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//MainFrame::MainFrame(const wxString title)
-//	:wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(-1, -1))
-//{
-//	wxPanel* panel = new wxPanel(this, wxID_ANY);
-//	
-//	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
-//	wxBoxSizer* hbox1 = new wxBoxSizer(wxHORIZONTAL);
-//	wxBoxSizer* hbox2 = new wxBoxSizer(wxHORIZONTAL);
-//
-//	//wxPanel* first_panel = new wxPanel(this, wxID_ANY);
-//	//wxPanel* second_panel = new wxPanel(this, wxID_ANY);
-//
-//	btn1 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-//	btn2 = new wxButton(panel,wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-//	btn3 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-//	btn4 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-//
-//	btn1->SetBackgroundColour(gray);
-//	btn2->SetBackgroundColour(gray);
-//	btn3->SetBackgroundColour(gray);
-//	btn4->SetBackgroundColour(gray);
-//
-//	hbox1->Add(btn1,1,wxEXPAND | wxALL, 5);
-//	hbox1->Add(btn2, 1, wxEXPAND | wxALL, 5);
-//	hbox1->Add(btn3, 1, wxEXPAND | wxALL, 5);
-//	hbox1->Add(btn4, 1, wxEXPAND | wxALL, 5);
-//
-//	btn5 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-//	btn6 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-//	btn7 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-//	btn8 = new wxButton(panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxNO_BORDER);
-//
-//	btn5->SetBackgroundColour(gray);
-//	btn6->SetBackgroundColour(gray);
-//	btn7->SetBackgroundColour(gray);
-//	btn8->SetBackgroundColour(gray);
-//
-//	hbox2->Add(btn5, 1, wxEXPAND | wxALL, 5);
-//	hbox2->Add(btn6, 1, wxEXPAND | wxALL, 5);
-//	hbox2->Add(btn7, 1, wxEXPAND | wxALL, 5);
-//	hbox2->Add(btn8, 1, wxEXPAND | wxALL, 5);
-//	
-//	vbox->Add(hbox1,1, wxEXPAND);
-//	vbox->Add(hbox2,1, wxEXPAND);
-//
-//	Connect(btn1->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrame::OnClickbtn1));
-//	Connect(btn2->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrame::OnClickbtn1));
-//	Connect(btn3->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrame::OnClickbtn1));
-//	Connect(btn4->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrame::OnClickbtn1));
-//	Connect(btn5->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrame::OnClickbtn1));
-//	Connect(btn6->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrame::OnClickbtn1));
-//	Connect(btn7->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrame::OnClickbtn1));
-//	Connect(btn8->GetId(), wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(MainFrame::OnClickbtn1));
-//	
-
-	
-//	MyRandom* rand = new MyRandom();
-//	std::vector<int>& pofig = rand->GetRNums(4);
-//	std::vector<int>& pofig2 = rand->GetRNums(4);
-//	for (int i = 0; i < pofig.size(); ++i)
-//	{
-//		random_nums.push_back(pofig[i]);
-//	}
-//	for (int i = 0; i < pofig2.size(); ++i)
-//	{
-//		random_nums.push_back(pofig2[i]);
-//	}
-//	iter_r_nums = random_nums.begin();
-// 
-// 
-//}
 
 
 
 
 void MainFrame::OnClickbtns(wxCommandEvent& event)
 {
-	if (!first)
+	if (select_two_cards)
 	{
 		current_button->SetBackgroundColour(gray);
 		previos_button->SetBackgroundColour(gray);
-		
+		select_two_cards = false;
 	}
-	first = false;
-	if (PUT_ID == -1) {
-		PUT_ID = event.GetId();
-		current_button = (wxButton*)FindWindowById(PUT_ID);
-		current_button->SetBackgroundColour((*btn_and_colors)[PUT_ID]);
-	}
-	else
-	{
+	
+	bool alone = true;
+	if (PUT_ID != NULL) 
+	{ 
+		alone = false;
 		previos_button = (wxButton*)FindWindowById(PUT_ID);
-		PUT_ID = event.GetId();
-		current_button = (wxButton*)FindWindowById(PUT_ID);
-		current_button->SetBackgroundColour((*btn_and_colors)[PUT_ID]);
-		current_button->Refresh();
-		
-		if (current_button->GetBackgroundColour() == previos_button->GetBackgroundColour())
-		{
-			current_button->Enable(false); previos_button->Enable(false);
-			PUT_ID = -1;			
-		}
-		else {
-			
-			//std::this_thread::sleep_for(std::chrono::seconds(2));
-			/*current_button->SetBackgroundColour(gray);
-			previos_button->SetBackgroundColour(gray);*/
-			PUT_ID = -1;
-		}
-		
-		
 	}
 
+	PUT_ID = event.GetId();
+	current_button = (wxButton*)FindWindowById(PUT_ID);
+	current_button->SetBackgroundColour((*btn_and_colors)[PUT_ID]);
+
+	if (alone || previos_button->GetId() == current_button->GetId()) return;
+
+	if (current_button->GetBackgroundColour() != previos_button->GetBackgroundColour())
+	{
+		select_two_cards = true;	
+		
+
+	}
+	else {
+		current_button->Enable(false); previos_button->Enable(false);	
+	}
+
+	PUT_ID = NULL;
 	
 }
 
-//void MainFrame::OnClickbtns(wxCommandEvent& event) {
-//	wxButton* current_button;
-//	wxButton* previos_button;
-//	if (index_colors == game_mode / 2) { RandomPermutation(colors); index_colors = 0; }
-//	switch (PUT_ID) {
-//	//	//кстати здесь не учтено выбранная карточка = предыдущей
-//	case -1:
-//		PUT_ID = event.GetId();
-//		current_button = (wxButton*)FindWindowById(PUT_ID);
-//		if (!(*btn_and_colors).count(PUT_ID)) {
-//			
-//			(*btn_and_colors)[PUT_ID] = colors[index_colors++];
-//		}
-//	//	//цвет определен - отобразить
-//		current_button->SetBackgroundColour((*btn_and_colors)[PUT_ID]);
-//		break;//
-//	default:		
-//		previos_button = (wxButton*)FindWindowById(PUT_ID);
-//		PUT_ID = event.GetId();
-//		current_button = (wxButton*)FindWindowById(PUT_ID);
-//		if (!(*btn_and_colors).count(PUT_ID)) {
-//			
-//			(*btn_and_colors)[PUT_ID] = colors[index_colors++];
-//		}
-//		current_button->SetBackgroundColour((*btn_and_colors)[PUT_ID]);
-//	//	//далле если цвета совпали осталяем, в идеале сделать некликабельными
-//		if (current_button->GetBackgroundColour() == previos_button->GetBackgroundColour()) 
-//		{
-//			current_button->Enable(false); previos_button->Enable(false);
-//			PUT_ID = -1; 
-//			break; 
-//		}
-//		Sleep(100);
-//		current_button->SetBackgroundColour(gray);
-//		previos_button->SetBackgroundColour(gray);
-//		PUT_ID = -1;
-//		break;
-//	//	
-//	//	
-//	}
-//	
-//
-//}
 
 void MainFrame::RandomPermutation(std::vector<wxColor>& colors)
 {
