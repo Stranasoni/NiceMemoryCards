@@ -1,13 +1,14 @@
 #include "menu.h"
 
 Menu::Menu(const wxString title)
-	:wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1024,768))
+	:wxFrame(NULL, wxID_ANY, title, wxDefaultPosition, wxSize(1200,800))
 {
 	wxImage::AddHandler(new wxJPEGHandler);
 	image = wxImage(wxT("../res/geometry.jpg"), wxBITMAP_TYPE_JPEG);
 	if (!image.IsOk()) {
 		return;
 	}
+	
 
 	panel = new wxPanel(this, wxID_ANY);
 	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
@@ -40,6 +41,7 @@ Menu::Menu(const wxString title)
 }
 	
 void Menu::OnImagePanelPaint(wxPaintEvent& event) {	
+	
 	if (panel->GetSize() != bitmap.GetSize()) {
 		ScaledImage();
 	}	
@@ -130,6 +132,7 @@ void Menu::Clicked_btns(wxCommandEvent& event)
 {
 	MainFrame* game = new MainFrame(event.GetId(), this);
 	game->Show();
+	this->Hide();
 
 	
 }

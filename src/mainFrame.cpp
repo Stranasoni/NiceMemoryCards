@@ -3,11 +3,11 @@
 
 
 MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
-	: wxFrame(parent, wxID_ANY, title,parent->GetPosition(), parent->GetSize()), game_mode(cards_count)
+	: wxFrame(parent, wxID_ANY, title,parent->GetPosition(), parent->GetSize()), game_mode(cards_count), end_game(cards_count/2)
 {
-
-	wxPanel* panel = new wxPanel(this, wxID_ANY);
-	wxBoxSizer* vbox = new wxBoxSizer(wxVERTICAL);
+	
+	panel = new wxPanel(this, wxID_ANY);
+	vbox = new wxBoxSizer(wxVERTICAL);
 
 	//все необходимые значения для графики мы получим из game_mode 
 	std::pair<int, int> rw_cl = MatrixSize(cards_count);
@@ -21,19 +21,19 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 	RandomPermutation(colors);
 	
 	//панель с счетчиком игры
-	wxBoxSizer* vboxScore = new wxBoxSizer(wxVERTICAL);
+	vboxScore = new wxBoxSizer(wxVERTICAL);
 	
-	wxStaticText* parting_words = new wxStaticText(panel, wxID_ANY, wxString("Откройте все карточки, потренируйте память, добейтесь успеха и получите приз."));
+	parting_words = new wxStaticText(panel, wxID_ANY, wxString("Откройте все карточки, потренируйте память, добейтесь успеха и получите приз."));
 	score = new wxStaticText(panel, wxID_ANY, wxString("Очки: 0"));
 	parting_words->SetFont(my_font);
 	score->SetFont(my_font);
-
-	vboxScore->Add(parting_words, 0, wxALIGN_CENTER | wxTOP, 15);
+	
+	vboxScore->Add(parting_words, 0, wxALIGN_CENTER| wxTOP, 15);
 	vboxScore->Add(score, 0, wxALIGN_CENTER | wxTOP, 10);
 	vbox->Add(vboxScore,0 , wxALIGN_CENTER | wxDOWN, 20);
 
 	
-	////что то здесь возможно вызывает утечки
+	////что то здесь возможно вызывает утечки возможно это из за того что я теряю указатель хмм
 	wxBoxSizer* cur_hbox;
 	wxButton* cur_btn;
 
@@ -55,6 +55,8 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 	}
 
 	panel->SetSizer(vbox);
+	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(MainFrame::OnClose));
+	
 	
 		
 
@@ -99,13 +101,46 @@ void MainFrame::OnClickbtns(wxCommandEvent& event)
 		wxString new_label = std::to_string(wxAtoi(score->GetLabel().substr(6)) + score_int);
 		score->SetLabelText(wxString("Очки: "+new_label));
 		score_int = 10;
+		//end game
+		if (--end_game == 0) { PrintResult(); }
 	}
 
 	PUT_ID = NULL;
 	
 }
 
-
+void MainFrame::PrintResult()
+{
+	int cur_score = wxAtoi(score->GetLabel().substr(6)) + score_int;
+	if (cur_score < (game_mode * 4)) {
+		parting_words->SetLabel(wxString("В этой игре вы не можете проиграть из-за неудачного расклада. Вы проиграли честно."));
+	}
+	else
+	{
+		wxImage::AddHandler(new wxPNGHandler);
+		wxBitmapButton* win = new wxBitmapButton(panel, wxID_ANY, wxBitmap("../res/win.png", wxBITMAP_TYPE_PNG), wxDefaultPosition, wxSize(62, 54), wxBORDER_NONE);
+		vboxScore->Replace(parting_words, win);
+		parting_words->Destroy();
+		
+		//panel->Refresh();
+		switch (game_mode)
+		{
+		case 4:
+			score->SetLabel(wxString("Вы справились!(в этом режиме невозможно проиграть)"));
+			break;
+		case 8:
+			score->SetLabel(wxString("Двигайтесь дальше"));
+			break;
+		case 16:
+			score->SetLabel(wxString("ДА ПОЧЕМУ ВСЕ ЦВЕТА ОДИНАКОВЫЕ!?"));
+			break;
+		case 64:
+			score->SetLabel(wxString("Я вас искренне поздравляю. Если в реальной жизни вы засомневаетесь в своих силах, ПОМНИТЕ,\n что здеесь вы навсегда остались героем игры, воплощением упорства и товарищем любопытству.\nНевозможно быть героем всегда, но именно такие моменты его и определяют. "));
+			break;
+		}	
+	}
+	panel->Layout();
+}
 void MainFrame::RandomPermutation(std::vector<wxColor>& colors)
 {
 	int fix = colors.size() ;
@@ -150,4 +185,13 @@ wxColor MainFrame::RandomColour() {
 	int green = rand() % 256;
 	int blue = rand() % 256;
 	return wxColour(red, green, blue);
+}
+
+void MainFrame::OnClose(wxCloseEvent & event) {
+	this->m_parent->SetPosition(this->GetPosition());
+	this->m_parent->SetSize(this->GetSize());
+	this->m_parent->Show(true);
+	this->Destroy();
+
+
 }

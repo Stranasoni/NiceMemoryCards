@@ -16,6 +16,7 @@ class MainFrame : public wxFrame
 {
 	const wxColor gray = wxT("#5F9EA0");
 	const int game_mode;
+	int end_game;
 
 	//!!smart point?(генерация цветов)
 	std::map<int, wxColor>* btn_and_colors = new std::map<int, wxColor>();
@@ -31,12 +32,17 @@ class MainFrame : public wxFrame
 
 	//счетчик и сопутсвующее
 	wxFont my_font = wxFont(18, wxFONTFAMILY_DEFAULT, wxBOLD, wxNORMAL);
+	wxBoxSizer* vboxScore;
+	wxStaticText* parting_words;
 	wxStaticText* score;
 	int score_int = 10;
 	void PrintResult();
+	//виджеты
+	wxPanel* panel;
+	wxBoxSizer* vbox;
 
 
-	
+	void OnClose(wxCloseEvent& event);
 	void OnClickbtns(wxCommandEvent& event);
 
 	void RandomPermutation(std::vector<wxColor>& colors);
@@ -45,6 +51,7 @@ class MainFrame : public wxFrame
 	
 public:
 	MainFrame(int cards_count, wxWindow* parent, const wxString& title = "poher");
+
 };
 
  
