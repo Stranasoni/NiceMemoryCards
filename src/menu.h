@@ -8,6 +8,8 @@ class Menu : public wxFrame
 	int ID_MEDIUM = 16;
 	int ID_HARD = 64;
 
+
+
 public:
 	Menu(const wxString title);
 	

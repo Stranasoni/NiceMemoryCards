@@ -117,12 +117,14 @@ void MainFrame::PrintResult()
 	}
 	else
 	{
+		win = true;
 		wxImage::AddHandler(new wxPNGHandler);
 		wxBitmapButton* win = new wxBitmapButton(panel, wxID_ANY, wxBitmap("../res/win.png", wxBITMAP_TYPE_PNG), wxDefaultPosition, wxSize(62, 54), wxBORDER_NONE);
 		vboxScore->Replace(parting_words, win);
 		parting_words->Destroy();
 		
 		//panel->Refresh();
+		
 		switch (game_mode)
 		{
 		case 4:
@@ -188,6 +190,10 @@ wxColor MainFrame::RandomColour() {
 }
 
 void MainFrame::OnClose(wxCloseEvent & event) {
+
+	if (win) {
+		this->m_parent->FindWindowById(game_mode)->Enable(false);
+	}
 	this->m_parent->SetPosition(this->GetPosition());
 	this->m_parent->SetSize(this->GetSize());
 	this->m_parent->Show(true);

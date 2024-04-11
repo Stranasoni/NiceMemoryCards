@@ -17,6 +17,7 @@ class MainFrame : public wxFrame
 	const wxColor gray = wxT("#5F9EA0");
 	const int game_mode;
 	int end_game;
+	bool win= false;
 
 	//!!smart point?(генерация цветов)
 	std::map<int, wxColor>* btn_and_colors = new std::map<int, wxColor>();
