@@ -1,8 +1,6 @@
 
 
-#define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
-#include <crtdbg.h>
 #include "menu.h"
 #include "mainFrame.h"
 
@@ -20,6 +18,7 @@ bool MyApp::OnInit() {
 	//h->Show();
 	Menu* mf = new Menu(wxT("Memory"));
 	mf->Show();
-	_CrtDumpMemoryLeaks();
+
+	
 	return true;
 }

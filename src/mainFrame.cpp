@@ -1,3 +1,4 @@
+
 #include "mainFrame.h"
 #include "../usefulClasses/myRandom.h"
 
@@ -58,7 +59,6 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 	Connect(wxEVT_CLOSE_WINDOW, wxCloseEventHandler(MainFrame::OnClose));
 	
 	
-		
 
 }
 
