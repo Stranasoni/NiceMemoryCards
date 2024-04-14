@@ -22,14 +22,14 @@ class MainFrame : public wxFrame
 	bool win= false;
 
 	//!!smart point?(генерация цветов)
-	std::map<int, wxColor>* btn_and_colors = new std::map<int, wxColor>();
+	std::map<wxButton *, wxColor>* btn_and_colors = new std::map<wxButton *, wxColor>();
 	std::vector<wxColor> colors;	
 	size_t index_colors = 0;
+	std::vector<wxBoxSizer*> gg;
 	
 
 	//игра
-	int PUT_ID = NULL;
-	wxButton* current_button;
+	wxButton* current_button = nullptr;
 	wxButton* previos_button;
 	bool select_two_cards = false;
 

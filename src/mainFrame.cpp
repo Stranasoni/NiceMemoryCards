@@ -34,7 +34,7 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 	vbox->Add(vboxScore,0 , wxALIGN_CENTER | wxDOWN, 20);
 
 	
-	////что то здесь возможно вызывает утечки возможно это из за того что € тер€ю указатель хмм
+	//проблемы решена
 	wxBoxSizer* cur_hbox;
 	wxButton* cur_btn;
 
@@ -49,10 +49,12 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 
 			cur_hbox->Add(cur_btn, 1, wxEXPAND | wxALL, 5);
 
-			(*btn_and_colors)[cur_btn->GetId()] = colors[index_colors];
+			(*btn_and_colors)[cur_btn] = colors[index_colors];
 			
 		}
 		vbox->Add(cur_hbox, 1, wxEXPAND);
+
+		
 	}
 
 	panel->SetSizer(vbox);
@@ -65,7 +67,7 @@ MainFrame::MainFrame(int cards_count, wxWindow* parent, const wxString& title)
 
 
 
-
+//теперь тут нужно все переделать
 void MainFrame::OnClickbtns(wxCommandEvent& event)
 {
 	if (select_two_cards)
@@ -73,20 +75,21 @@ void MainFrame::OnClickbtns(wxCommandEvent& event)
 		current_button->SetBackgroundColour(gray);
 		previos_button->SetBackgroundColour(gray);
 		select_two_cards = false;
+		current_button = nullptr;
 	}
 	
 	bool alone = true;
-	if (PUT_ID != NULL) 
+	if (current_button != nullptr) 
 	{ 
 		alone = false;
-		previos_button = (wxButton*)FindWindowById(PUT_ID);
+		previos_button = current_button;
 	}
 
-	PUT_ID = event.GetId();
-	current_button = (wxButton*)FindWindowById(PUT_ID);
-	current_button->SetBackgroundColour((*btn_and_colors)[PUT_ID]);
+	//PUT_ID = (wxButton*)event.GetEventObject();
+	current_button = (wxButton*)event.GetEventObject();
+	current_button->SetBackgroundColour((*btn_and_colors)[current_button]);
 
-	if (alone || previos_button->GetId() == current_button->GetId()) return;
+	if (alone || previos_button == current_button) return;
 
 	if (current_button->GetBackgroundColour() != previos_button->GetBackgroundColour())
 	{
@@ -103,9 +106,10 @@ void MainFrame::OnClickbtns(wxCommandEvent& event)
 		score_int = 10;
 		//end game
 		if (--end_game == 0) { PrintResult(); }
+		current_button = nullptr;
 	}
 
-	PUT_ID = NULL;
+	
 	
 }
 
@@ -197,7 +201,9 @@ void MainFrame::OnClose(wxCloseEvent & event) {
 	this->m_parent->SetPosition(this->GetPosition());
 	this->m_parent->SetSize(this->GetSize());
 	this->m_parent->Show(true);
+	delete(btn_and_colors);//
 	this->Destroy();
+	
 
 
 }
